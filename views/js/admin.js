@@ -255,6 +255,23 @@ $(document).ready(function() {
             });
     });
 
+    // редактирование типа чека для терминала
+    $(document).on('change', '.bill', function() {
+        var sid = $('#sid').val(),
+            $checkbox = $(this).siblings('.serviceItem'),
+            req = {
+                id: $checkbox.attr('id'), 
+                status: $(this).prop('checked') ? 1 : 0
+            };
+
+        $.post(sid + '/admin/setBill', req, function() {
+
+        }, 'json')
+            .fail(function(){
+                get('getPriceGroup', $('#priceGroup'));
+            });
+    });
+
     // редактирование цвета кнопки
     $(document).on('change', '.color input', function() {
         var sid = $('#sid').val(),

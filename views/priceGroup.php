@@ -68,7 +68,9 @@ function getMenuLevel($menu, $id)
                 <button class='confirmDelete price'><span class='glyphicon glyphicon-remove' title='Удалить' data-toggle='modal' data-target='#confirmDeleteDialog'></span></button><br>
 
                 <form class='form-inline'>
-                    $daySchedule
+                    <div class='row'>
+                        $daySchedule
+                    </div>
                 </form>
                 $commentItem
                 
@@ -79,12 +81,16 @@ function getMenuLevel($menu, $id)
                 <input type='text' value='{$item['clients_desc']}' class='clientsDesc' size='50' placeholder='Название для терминала' title='Название для терминала' />";
 
             if (empty($menu[$item['id']])) {
+                $billType = $item['bill'] ? 'checked' : '';
                 $html .= "<input type='text' value='{$item['price']}' class='price' size='8' placeholder='Цена услуги' title='Цена услуги' />
                 <select class='nds'>
                     <option value='0000' $checkedNullNds></option>
                     <option value='4000' $checkedWoNds>Без НДС</option>
                     <option value='1000' $checkedWithllNds>с НДС</option>
-                </select>";
+                </select>
+                <input type='checkbox' id='bill{$item['id']}' $billType class='bill'>
+                <label for='bill{$item['id']}' title='указывается количество вместо печати пачки чеков'>Общий чек</label>
+                ";
             } else {
                 $html .= "<ul class='hidden'>";
                 $html .= getMenuLevel($menu, $item['id']);

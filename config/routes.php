@@ -26,6 +26,7 @@ return array(
     '.*?/admin/setCommentItem' => 'admin/setCommentItem',
     '.*?/admin/setPrice' => 'admin/setPrice',
     '.*?/admin/setNds' => 'admin/setNds',
+    '.*?/admin/setBill' => 'admin/setBill',
     '.*?/admin/setColor' => 'admin/setColor',
     '.*?/admin/setDayStatus' => 'admin/setDayStatus',
     '.*?/admin/setWorkTime' => 'admin/setWorkTime',
