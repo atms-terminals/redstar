@@ -1,5 +1,5 @@
 <?php
-function printButton($key)
+function printButtonAN($key)
 {
     $hidden = '';
     $half = '';
@@ -15,7 +15,8 @@ function printButton($key)
             </div>";
     } elseif ($key == 'ok') {
         return "<div class='rus-num-block'>
-                <button class='btn btn-primary medium-font-size kbd rus-num-btn wide wide-btn'>OK</button>
+                <button class='btn btn-primary medium-font-size kbd rus-num-btn ok wide wide-btn'>OK</button>
+                <input type='hidden' class='target' value='target'>
             </div>";
     } elseif ($key == 'space') {
         return "<div class='rus-num-block'>
@@ -31,18 +32,20 @@ function printButton($key)
                 <input type='hidden' class='char' value='$key'>
             </div>";
 }
-?>
 
-<div class="my-flex-container">
-    <?php
+function getKbdAN()
+{
     $keySeq = [
                 '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', 'bs',
                 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ',
                 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', '/',
                 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', 'ok',
                 'space'];
+
+    $keys = '';
     foreach ($keySeq as $char) {
-        echo printButton($char);
+        $keys .= printButtonAN($char);
     }
-    ?>
-</div>
+
+    return "<div class='flex-container keyboard'>$keys</div>";
+}

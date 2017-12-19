@@ -3,6 +3,11 @@ String.prototype.replaceAt = function(index, replacement) {
     return this.substr(0, index) + replacement + this.substr(index + replacement.length);
 };
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 function getMaskedString(text, mask, char) {
     for (var i in text) {
         if (text.hasOwnProperty(i)) {
@@ -50,12 +55,22 @@ $(document).ready(function() {
             char = $(this).siblings('.char').val(),
             $customerInput = $(target),
             mask = $customerInput.siblings('.mask').val(),
-            customerText = $customerInput.val();
+            customerText = $customerInput.val(),
+            min = +$(target).siblings('.min').val() || 0,
+            max = +$(target).siblings('.max').val() || 0;
 
         if ($(this).hasClass('backspace')) {
             $customerInput.val(deleteLastSym(customerText, mask));
+        } else if ($(this).hasClass('ok')) {
+            // проверяем минимальную длину
+            var clearStr = customerText.replaceAll('_', '');
+            if (clearStr.length >= min) {
+                $(this).closest('.keyboard').siblings('.action').trigger('click');
+            }
         } else {
-            $customerInput.val(getMaskedString(customerText, mask, char));
+            if (max && customerText.length < max) {
+                $customerInput.val(getMaskedString(customerText, mask, char));
+            }
         }
     });
 

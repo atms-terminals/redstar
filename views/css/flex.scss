@@ -1,0 +1,83 @@
+@import '_consts.scss';
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    padding: 0 60px;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.numeric-block {
+    flex-basis: 33%;
+    text-align: center;
+    height: 80px;
+}
+
+.num-btn {
+    width: 65px;
+    height: 65px;
+}
+
+.rus-block {
+    flex-basis: 7.5%;
+    text-align: center;
+    height: 90px;
+}
+
+.rus-num-block {
+    flex-basis: 7.5%;
+    text-align: center;
+    height: 90px;
+}
+
+.rus-btn {
+    width: 70px;
+    height: 70px;
+}
+
+.rus-num-btn {
+    width: 65px;
+    height: 65px;
+}
+
+.space-btn {
+    width: 700px;
+}
+
+.half {
+    flex-basis: 5%;
+}
+
+.wide {
+    flex-basis: 12%;
+}
+
+.wide-btn {
+    width: 100px;
+}
+
+.big-font-size {
+    text-transform: uppercase;
+    font-size: 55px !important;
+}
+
+.medium-font-size {
+    text-transform: uppercase;
+    font-size: 30px !important;
+}
+
+.small-font-size {
+    text-transform: uppercase;
+    font-size: 16px !important;
+}
+
+#target {
+    font-family: monospace;
+    text-transform: uppercase;
+    font-size: 40px;
+    text-align: center;
+    margin: 30px auto;
+    width: 80%;
+}

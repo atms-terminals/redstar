@@ -1,5 +1,5 @@
 <?php
-function printButton($key)
+function printButtonA($key)
 {
     $hidden = $key ? '' : 'hidden';
     $half = $key ? '' : 'half';
@@ -10,11 +10,12 @@ function printButton($key)
             </div>";
     } elseif ($key == 'ok') {
         return "<div class='rus-block'>
-                <button class='btn btn-primary medium-font-size kbd rus-btn wide wide-btn'>OK</button>
+                <button class='btn btn-primary medium-font-size kbd rus-btn wide ok wide-btn'>OK</button>
+                <input type='hidden' class='target' value='target'>
             </div>";
     } elseif ($key == 'space') {
         return "<div class='rus-block'>
-                <button class='btn btn-default medium-font-size kbd rus-btn space-btn'></button>
+                <button class='btn btn-default medium-font-size kbd  rus-btn space-btn'></button>
                 <input type='hidden' class='target' value='target'>
                 <input type='hidden' class='char' value=' '>
             </div>";
@@ -26,17 +27,19 @@ function printButton($key)
                 <input type='hidden' class='char' value='$key'>
             </div>";
 }
-?>
 
-<div class="my-flex-container">
-    <?php
+function getKbdA()
+{
     $keySeq = [
                 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'bs',
                 '-', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', '/',
                 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', 'ok',
                 'space'];
+
+    $keys = '';
     foreach ($keySeq as $char) {
-        echo printButton($char);
+        $keys .= printButtonA($char);
     }
-    ?>
-</div>
+
+    return "<div class='flex-container keyboard'>$keys</div>";
+}
