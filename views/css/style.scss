@@ -219,7 +219,7 @@ body {
 #main .error  h1 {
     color: $errorColor;
     text-transform: uppercase;
-    margin: 20px 0;
+    margin: 0px 0;
     text-align: center;
     font-size: 50px;
     font-weight: 600;
@@ -238,6 +238,7 @@ body {
     color: $errorColor;
     text-transform: uppercase;
     margin-bottom: 26px;
+    margin-top: 0;
     text-align: center;
     font-size: 35px;
     font-weight: 600;
@@ -316,7 +317,7 @@ button.debtsButton {
 button.service {
     width: 48%;
     font-size: 40px;
-    min-height: 165px;
+    min-height: 150px;
     margin-left: 15px;
     margin-bottom: 15px;
     white-space: normal;
@@ -339,7 +340,7 @@ button.service.control {
 
 #main .newServiceListArea {
     overflow: auto;
-    height: 440px;
+    height: 495px;
     margin-bottom: -40px;
 }
 .confirmDelete {
@@ -379,4 +380,8 @@ select.year, #priceStatus {
 
 .lead {
     font-weight: 600;
+}
+
+.container.controlArea {
+    margin-top: 50px;
 }

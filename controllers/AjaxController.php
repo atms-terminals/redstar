@@ -140,47 +140,65 @@ class AjaxController
 
         // получаем корзину
         $query = "/*".__FILE__.':'.__LINE__."*/ ".
-            "SELECT i.id_service, p.price, p.nds
+            "SELECT i.id_service, p.price, p.nds, 1 cnt
             from baskets b
                 join baskets_items i on b.id = i.id_basket
                 join custom_price_redstar p on i.id_service = p.id
-            where b.id = $idBasket";
+                  and p.bill = 0
+            where b.id = '$idBasket'
+            union all
+            SELECT i.id_service, p.price, p.nds, count(*) cnt
+            from baskets b
+                join baskets_items i on b.id = i.id_basket
+                join custom_price_redstar p on i.id_service = p.id
+                  and p.bill = 1
+            where b.id = '$idBasket'
+            group by i.id_service, p.price, p.nds";
         $services = dbHelper\DbHelper::selectSet($query);
 
         $i = 0;
         foreach ($services as $item) {
-            // если денег не хватает, то остаток - сдача
-            if ($item['price'] > $amount) {
-                break;
+            $qty = 0;
+            for ($j = 0; $j < $item['cnt']; $j++) {
+                // если денег не хватает, то остаток - сдача
+                if ($item['price'] > $amount) {
+                    break;
+                }
+
+                if ($item['price'] == 0) {
+                    $item['price'] = $amount;
+                }
+
+                // подтверждаем оплату
+                $query = '/*'.__FILE__.':'.__LINE__.'*/ '.
+                    "SELECT payments_add($uid, '{$item['id_service']}', '{$item['price']}') id";
+                $pay = dbHelper\DbHelper::selectRow($query);
+
+                $amount -= $item['price'];
+                $qty++;
             }
 
-            if ($item['price'] == 0) {
-                $item['price'] = $amount;
+            if ($qty) {
+                $replArray['patterns'][] = '{TRN}';
+                $replArray['values'][] = $pay['id'];
+
+                $servParam = $this->getServiceName($item['id_service']);
+                $replArray['patterns'][] = '{NDS}';
+                $replArray['values'][] = $item['nds'];
+
+                // формируем чек
+                $replArray['fr'][$i]['amount'] = $item['price'] * $qty;
+
+                $replArray['fr'][$i]['patterns'][] = '{SERVICE}';
+                $replArray['fr'][$i]['values'][] = $servParam['name'];
+
+                $replArray['fr'][$i]['patterns'][] = '{QTY}';
+                $replArray['fr'][$i]['values'][] = $qty;
+
+                $replArray['fr'][$i]['patterns'][] = '{PRICE}';
+                $replArray['fr'][$i]['values'][] = number_format($item['price'], 2, '.', '');
+                $i++;
             }
-
-            // подтверждаем оплату
-            $query = '/*'.__FILE__.':'.__LINE__.'*/ '.
-                "SELECT payments_add($uid, '{$item['id_service']}', '{$item['price']}') id";
-            $pay = dbHelper\DbHelper::selectRow($query);
-
-            $amount -= $item['price'];
-
-            $replArray['patterns'][] = '{TRN}';
-            $replArray['values'][] = $pay['id'];
-
-            $servParam = $this->getServiceName($item['id_service']);
-            $replArray['patterns'][] = '{NDS}';
-            $replArray['values'][] = $item['nds'];
-
-            // формируем чек
-            $replArray['fr'][$i]['amount'] = $item['price'];
-
-            $replArray['fr'][$i]['patterns'][] = '{SERVICE}';
-            $replArray['fr'][$i]['values'][] = $servParam['name'];
-
-            $replArray['fr'][$i]['patterns'][] = '{PRICE}';
-            $replArray['fr'][$i]['values'][] = number_format($item['price'], 2, '.', '');
-            $i++;
         }
 
         // если осталась сдача
@@ -388,9 +406,6 @@ class AjaxController
                     <input class='nextScreen' type='hidden' value='".SERVICE_LIST_SCREEN."' />
                     <input class='value id' type='hidden' value='$id' />
                     <input class='value start' type='hidden' value='$start' />
-                    <input class='value prepayment' type='hidden' value='$prepayment' />
-                    <input class='value card' type='hidden' value='$card' />
-                    <input class='value customer' type='hidden' value='$customer' />
                     <button class='btn btn-primary action service control'>Следующий</button>";
         } else {
             $controls .= "&nbsp;";
