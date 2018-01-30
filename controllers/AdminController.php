@@ -127,7 +127,7 @@ class AdminController
         $res = array();
         $rest = 0;
         for ($i = 0; $i < count($opers); $i++) {
-            $ind = $opers[$i]['service'];
+            $ind = $opers[$i]['service'].$opers[$i]['price'];
             
             $rest += $opers[$i]['rest'];
 
