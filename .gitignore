@@ -12,6 +12,9 @@ sqlUpdate/**
 release/**
 tmp/**
 
+# config
+/config/dbParams.php
+
 # sass файлы
 .sass-cache/**
 views/css/*.css
