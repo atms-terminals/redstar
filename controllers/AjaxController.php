@@ -578,10 +578,12 @@ class AjaxController
             $response['tScreen'] = (empty($xml->$idScreen->timer->screen)) ? 0 : (int) $xml->$idScreen->timer->screen;
             $response['tTimeout'] = (empty($xml->$idScreen->timer->timeout)) ? 0 : (int) $xml->$idScreen->timer->timeout;
             $response['tTimeoutNoMoney'] = (empty($xml->$idScreen->timer->timeoutNoMoney)) ? 0 : (int) $xml->$idScreen->timer->timeoutNoMoney;
+            $response['tTimeoutPay'] = (empty($xml->$idScreen->timer->timeoutPay)) ? 0 : (int) $xml->$idScreen->timer->timeoutPay;
             $response['tAction'] = (empty($xml->$idScreen->timer->action)) ? 'move' : (string) $xml->$idScreen->timer->action;
             $timer['tScreen'] = $response['tScreen'];
             $timer['tTimeout'] = $response['tTimeout'];
             $timer['tTimeoutNoMoney'] = $response['tTimeoutNoMoney'];
+            $timer['tTimeoutPay'] = $response['tTimeoutPay'];
             $timer['tAction'] = $response['tAction'];
         }
 

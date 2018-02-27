@@ -24,6 +24,7 @@
         <timer>
             <screen>1</screen>
             <timeoutNoMoney>100</timeoutNoMoney>
+            <timeoutPay>5</timeoutPay>
             <timeout>400</timeout>
             <action>pay</action>
         </timer>

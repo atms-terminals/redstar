@@ -3,7 +3,8 @@
 /* global getCard*/
 
 var currScreen, currAction,
-    timer, timerNoMoney,
+    timer, timerNoMoney, timerPay,
+    tTimeoutPay,
     flash = 1,
     currDate = new Date(),
     stopAjax = 0;
@@ -55,6 +56,7 @@ function doAction(activity, nextScreen, values){
     if (nextScreen) {
         clearTimeout(timer);
         clearTimeout(timerNoMoney);
+        clearTimeout(timerPay);
     }
 
     values = values || {};
@@ -144,6 +146,10 @@ function doAction(activity, nextScreen, values){
                     }
                 }
 
+            }
+
+            if (response.tTimeoutPay !== undefined) {
+                tTimeoutPay = response.tTimeoutPay;
             }
 
             // если есть таймер и нет аудио для автоматического перехода

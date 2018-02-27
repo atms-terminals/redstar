@@ -1,5 +1,5 @@
 ﻿/*jshint unused:false*/
-/*global doAction, timerNoMoney*/
+/*global doAction, timerNoMoney, timerPay : true, tTimeoutPay*/
 var ws;
 // const DISPATCHER_URL = 'ws://192.168.3.216:8011'; 
 const DISPATCHER_URL = 'ws://localhost:8011'; 
@@ -66,8 +66,13 @@ function handleCashmachineEvent(eventType, eventValue) {
         // если деньги приняты - то останавливаем таймер, который отслеживает невненсение денег
         if (currAmount) {
             clearTimeout(timerNoMoney);
-            $('.btn.action.pay').removeClass('hidden');
+            // $('.btn.action.pay').removeClass('hidden');
             $('.btn.action.cancel').addClass('hidden');
+
+            // перезапускаем таймер для кнопки оплатить
+            $('.btn.action.pay').addClass('hidden');
+            clearTimeout(timerPay);
+            timerPay = setTimeout(function() {$('.btn.action.pay').removeClass('hidden');} , tTimeoutPay * 1000);
         }
 
         // Проверяем минимальную сумму платежа, если достигнута, то оплачиваем автоматом
